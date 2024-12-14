@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudenaz Animasyon</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #000428, #004e92);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+        .kalp {
+            width: 100px;
+            height: 100px;
+            background: red;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            opacity: 0;
+            animation: kalpGorunme 3s ease forwards;
+        }
+        .kalp:before, .kalp:after {
+            content: "";
+            width: 100px;
+            height: 100px;
+            background: red;
+            border-radius: 50%;
+            position: absolute;
+        }
+        .kalp:before {
+            top: -50px;
+            left: 0;
+        }
+        .kalp:after {
+            left: 50px;
+            top: 0;
+        }
+
+        @keyframes kalpGorunme {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        h1 {
+            font-size: 10vw;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+            opacity: 0;
+            animation: yazGorunme 3s ease-in 3s forwards;
+        }
+
+        @keyframes yazGorunme {
+            0% { opacity: 0; transform: translateY(100px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .circle {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: expand 1.5s ease-out forwards;
+        }
+        @keyframes expand {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(10); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="kalp"></div>
+    <h1 id="title">SUDENAZ</h1>
+
+    <script>
+        // RGB efekt fonksiyonu
+        function createRGBEffect(x, y) {
+            const colors = ['#ff0040', '#00ffbf', '#20EFEF', '#ffa500', '#ff0040'];
+            const circle = document.createElement('div');
+            circle.classList.add('circle');
+            circle.style.background = colors[Math.floor(Math.random() * colors.length)];
+            circle.style.left = `${x - 10}px`;
+            circle.style.top = `${y - 10}px`;
+            document.body.appendChild(circle);
+
+            // Animasyon tamamlandığında elemanı kaldır
+            setTimeout(() => {
+                circle.remove();
+            }, 1500);
+        }
+
+        // Tıklama ve dokunma olayları
+        document.addEventListener("click", (e) => {
+            createRGBEffect(e.clientX, e.clientY);
+        });
+
+        document.addEventListener("touchstart", (e) => {
+            const touch = e.touches[0];
+            createRGBEffect(touch.clientX, touch.clientY);
+        });
+    </script>
+</body>
+</html>
